@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Data</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    #submitForm {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #submitForm:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <form id="editForm">
+
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required><br>
+
+      <label for="Description01">Description 01:</label>
+      <input type="text" id="Description01" name="Description01" required><br>
+
+      <label for="Description02">Description 02:</label>
+      <input type="text" id="Description02" name="Description02" required><br>
+
+      <label for="Size">Size :</label>
+      <input type="text" id="Size" name="Size" required><br>
+
+      <label for="Bed">Bed :</label>
+      <input type="text" id="Bed" name="Bed" required><br>
+
+      <label for="Bath">Bath :</label>
+      <input type="text" id="Bath" name="Bath" required><br>
+
+      <label for="Parking">Parking :</label>
+      <input type="text" id="Parking" name="Parking" required><br>
+
+      <label for="Location">Location :</label>
+      <input type="text" id="Location" name="Location" required><br>
+
+      <label for="Price">Price :</label>
+      <input type="text" id="Price" name="Price" required><br>
+
+      <label for="mainphoto">Main Photo:</label>
+      <input type="file" id="mainphoto" name="mainphoto" accept="image/*"><br>
+
+      <label for="photo01">Photo 01:</label>
+      <input type="file" id="photo01" name="photo01" accept="image/*"><br>
+
+      <label for="photo02">Photo 02:</label>
+      <input type="file" id="photo02" name="photo02" accept="image/*"><br>
+
+      <label for="photo03">Photo 03:</label>
+      <input type="file" id="photo03" name="photo03" accept="image/*"><br>
+
+      <label for="photo04">Photo 04:</label>
+      <input type="file" id="photo04" name="photo04" accept="image/*"><br>
+
+      <label for="photo05">Photo 05:</label>
+      <input type="file" id="photo05" name="photo05" accept="image/*"><br>
+
+      <label for="photo06">Photo 06:</label>
+      <input type="file" id="photo06" name="photo06" accept="image/*"><br>
+
+      <label for="photo07">Photo 07:</label>
+      <input type="file" id="photo07" name="photo07" accept="image/*"><br>
+
+      <label for="photo08">Photo 08:</label>
+      <input type="file" id="photo08" name="photo08" accept="image/*"><br>
+
+      <label for="photo09">Photo 09:</label>
+      <input type="file" id="photo09" name="photo09" accept="image/*"><br>
+
+      <label for="photo10">Photo 10:</label>
+      <input type="file" id="photo10" name="photo10" accept="image/*"><br>
+
+      <label for="photo11">Photo 11:</label>
+      <input type="file" id="photo11" name="photo11" accept="image/*"><br>
+
+      <label for="photo12">Photo 12:</label>
+      <input type="file" id="photo12" name="photo12" accept="image/*"><br>
+
+      <label for="photo13">Photo 13:</label>
+      <input type="file" id="photo13" name="photo13" accept="image/*"><br>
+
+      <label for="photo14">Photo 14:</label>
+      <input type="file" id="photo14" name="photo14" accept="image/*"><br>
+
+      <label for="photo15">Photo 15:</label>
+      <input type="file" id="photo15" name="photo15" accept="image/*"><br>
+
+      <label for="photo16">Photo 16:</label>
+      <input type="file" id="photo16" name="photo16" accept="image/*"><br>
+
+      <label for="photo17">Photo 17:</label>
+      <input type="file" id="photo17" name="photo17" accept="image/*"><br>
+
+      <label for="photo18">Photo 18:</label>
+      <input type="file" id="photo18" name="photo18" accept="image/*"><br>
+
+      <label for="photo19">Photo 19:</label>
+      <input type="file" id="photo19" name="photo19" accept="image/*"><br>
+
+      <button type="button" id="submitForm">Add</button>
+    </form>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDnoUZxg_ru1gGmytgIKHrD1AELExOChqA",
+      authDomain: "home-factor-ef593.firebaseapp.com",
+      projectId: "home-factor-ef593",
+      storageBucket: "home-factor-ef593.appspot.com",
+      messagingSenderId: "761124995145",
+      appId: "1:761124995145:web:fa5b3b10ee99e7399a3f98",
+      measurementId: "G-NVZXSGL2XV"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+    var storage = firebase.storage().ref();
+
+    // Get the document ID from the query parameter
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    var docId = urlParams.get('id');
+
+    // Fetch existing data and pre-fill the form
+    db.collection('items').doc(docId).get().then((doc) => {
+      var data = doc.data();
+      document.getElementById('name').value = data.Name;
+      var Description01 = document.getElementById('Description01').value;
+      var Description02 = document.getElementById('Description02').value;
+      
+      // Display existing images
+            displayImage('mainphoto', data.MainPhoto);
+            displayImage('photo01', data.Photo01);
+            displayImage('photo02', data.Photo02);
+            displayImage('photo03', data.Photo03);
+            displayImage('photo04', data.Photo04);
+            displayImage('photo05', data.Photo05);
+            displayImage('photo06', data.Photo06);
+            displayImage('photo07', data.Photo07);
+            displayImage('photo08', data.Photo08);
+            displayImage('photo09', data.Photo09);
+            displayImage('photo10', data.Photo10);
+            displayImage('photo11', data.Photo11);
+            displayImage('photo12', data.Photo12);
+            displayImage('photo13', data.Photo13);
+            displayImage('photo14', data.Photo14);
+            displayImage('photo15', data.Photo15);
+            displayImage('photo16', data.Photo16);
+            displayImage('photo17', data.Photo17);
+            displayImage('photo18', data.Photo18);
+            displayImage('photo19', data.Photo19);
+        });
+        function displayImage(elementId, imageUrl) {
+            var imgElement = document.createElement('img');
+            imgElement.src = imageUrl;
+            imgElement.style.maxWidth = '100%';
+            imgElement.style.marginTop = '10px';
+            document.getElementById(elementId).insertAdjacentElement('afterend', imgElement);
+        }
+    document.getElementById('submitForm').addEventListener('click', function () {
+      var name = document.getElementById('name').value;
+            var Description01 = document.getElementById('Description01').value;
+            var Description02 = document.getElementById('Description02').value;
+            var Size = document.getElementById('Size').value;
+            var Bed = document.getElementById('Bed').value;
+            var Bath = document.getElementById('Bath').value;
+            var Parking = document.getElementById('Parking').value;
+            var Location = document.getElementById('Location').value;
+            var Price = document.getElementById('Price').value;
+            var MainPhoto = document.getElementById('mainphoto').files[0];
+            var Photo01 = document.getElementById('photo01').files[0];
+            var Photo02 = document.getElementById('photo02').files[0];
+            var Photo03 = document.getElementById('photo03').files[0];
+            var Photo04 = document.getElementById('photo04').files[0];
+            var Photo05 = document.getElementById('photo05').files[0];
+            var Photo06 = document.getElementById('photo06').files[0];
+            var Photo07 = document.getElementById('photo07').files[0];
+            var Photo08 = document.getElementById('photo08').files[0];
+            var Photo09 = document.getElementById('photo09').files[0];
+            var Photo10 = document.getElementById('photo10').files[0];
+            var Photo11 = document.getElementById('photo11').files[0];
+            var Photo12 = document.getElementById('photo12').files[0];
+            var Photo13 = document.getElementById('photo13').files[0];
+            var Photo14 = document.getElementById('photo14').files[0];
+            var Photo15 = document.getElementById('photo15').files[0];
+            var Photo16 = document.getElementById('photo16').files[0];
+            var Photo17 = document.getElementById('photo17').files[0];
+            var Photo18 = document.getElementById('photo18').files[0];
+            var Photo19 = document.getElementById('photo19').files[0];
+           
+      const uploadTasks = [
+        storage.child('photos').child(docId + '_MainPhoto').put(MainPhoto),
+        storage.child('photos').child(docId + '_Photo01').put(Photo01),
+        storage.child('photos').child(docId + '_Photo02').put(Photo02),
+        storage.child('photos').child(docId + '_Photo03').put(Photo03),
+        storage.child('photos').child(docId + '_Photo04').put(Photo04),
+        storage.child('photos').child(docId + '_Photo05').put(Photo05),
+        storage.child('photos').child(docId + '_Photo06').put(Photo06),
+        storage.child('photos').child(docId + '_Photo07').put(Photo07),
+        storage.child('photos').child(docId + '_Photo08').put(Photo08),
+        storage.child('photos').child(docId + '_Photo09').put(Photo09),
+        storage.child('photos').child(docId + '_Photo10').put(Photo10),
+        storage.child('photos').child(docId + '_Photo11').put(Photo11),
+        storage.child('photos').child(docId + '_Photo12').put(Photo12),
+        storage.child('photos').child(docId + '_Photo13').put(Photo13),
+        storage.child('photos').child(docId + '_Photo14').put(Photo14),
+        storage.child('photos').child(docId + '_Photo15').put(Photo15),
+        storage.child('photos').child(docId + '_Photo16').put(Photo16),
+        storage.child('photos').child(docId + '_Photo17').put(Photo17),
+        storage.child('photos').child(docId + '_Photo18').put(Photo18),
+        storage.child('photos').child(docId + '_Photo19').put(Photo19),
+        
+      ];
+
+      Promise.all(uploadTasks).then((snapshots) => {
+                const downloadURLs = snapshots.map(snapshot => snapshot.ref.getDownloadURL());
+
+                return Promise.all(downloadURLs);
+            }).then(downloadURLs => {
+                return db.collection('items').doc(docId).update({
+                        Name: name,
+                        Description01: Description01,
+                        Description02: Description02,
+                        Size:Size,
+                        Bed: Bed,
+                        Bath: Bath,
+                        Parking: Parking,
+                        Location:Location,
+                        Price:Price,
+                        MainPhoto: downloadURLs[0],
+                        Photo01: downloadURLs[1],
+                        Photo02: downloadURLs[2],
+                        Photo03: downloadURLs[3] || null,
+                        Photo04: downloadURLs[4] || null,
+                        Photo05: downloadURLs[5] || null,
+                        Photo06: downloadURLs[6] || null,
+                        Photo07: downloadURLs[7] || null,
+                        Photo08: downloadURLs[8] || null,
+                        Photo09: downloadURLs[9] || null,
+                        Photo10: downloadURLs[10] || null,
+                        Photo11: downloadURLs[11] || null,
+                        Photo12: downloadURLs[12] || null,
+                        Photo13: downloadURLs[13] || null,
+                        Photo14: downloadURLs[14] || null,
+                        Photo15: downloadURLs[15] || null,
+                        Photo16: downloadURLs[16] || null,
+                        Photo17: downloadURLs[17] || null,
+                        Photo18: downloadURLs[18] || null,
+                        Photo19: downloadURLs[19] || null,
+                
+                });
+            }).then(function () {
+                // Redirect to the main page after successful update
+                window.location.href = 'admin.html';
+            }).catch(function (error) {
+                console.error('Error updating document: ', error);
+            });
+        });
+    </script>
+</body>
+
+</html>

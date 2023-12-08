@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        main {
+            max-width: 8000px; 
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        img {
+          max-width: 100%; /* Set images to a maximum width of 100% */
+          height: auto;
+        }
+
+        /* Add some spacing between elements */
+        #addButton {
+            margin-bottom: 20px;
+        }
+
+        /* Style for the action buttons in the table */
+        td button {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <button id="addButton">Add Data</button>
+        <table id="taskTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description 01</th>
+                    <th>Description 02</th>
+                    <th>Bed</th>
+                    <th>Bath</th>
+                    <th>Parking</th>
+                    <th>Size</th>
+                    <th>Location</th>
+                    <th>Price</th>
+                    <th>Main Photo</th>
+                    <th>Photo 01</th>
+                    <th>Photo 02</th>
+                    <th>Photo 03</th>
+                    <th>Photo 04</th>
+                    <th>Photo 05</th>
+                    <th>Photo 06</th>
+                    <th>Photo 07</th>
+                    <th>Photo 08</th>
+                    <th>Photo 09</th>
+                    <th>Photo 10</th>
+                    <th>Photo 11</th>
+                    <th>Photo 12</th>
+                    <th>Photo 13</th>
+                    <th>Photo 14</th>
+                    <th>Photo 15</th>
+                    <th>Photo 16</th>
+                    <th>Photo 17</th>
+                    <th>Photo 18</th>
+                    <th>Photo 19</th>
+                    <th>Actions</th>
+                    
+                </tr>
+            </thead>
+            <tbody id="itemTableBody">
+                <!-- Items will be added here dynamically -->
+            </tbody>
+        </table>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <script>
+        const firebaseConfig = {
+      apiKey: "AIzaSyDnoUZxg_ru1gGmytgIKHrD1AELExOChqA",
+      authDomain: "home-factor-ef593.firebaseapp.com",
+      projectId: "home-factor-ef593",
+      storageBucket: "home-factor-ef593.appspot.com",
+      messagingSenderId: "761124995145",
+      appId: "1:761124995145:web:fa5b3b10ee99e7399a3f98",
+      measurementId: "G-NVZXSGL2XV"
+
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+    var storage = firebase.storage();
+
+    // Immediately call the readRecords function to display data when the page loads
+    readRecords();
+
+    function readRecords() {
+      var tableBody = document.getElementById('itemTableBody');
+      tableBody.innerHTML = '';
+
+      db.collection('items').get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          const itemsData = doc.data();
+          const row = document.createElement('tr');
+
+          row.innerHTML = `
+            <td>${itemsData.Name}</td>
+            <td>${itemsData.Description01}</td>
+            <td>${itemsData.Description02}</td>
+            <td>${itemsData.Size}</td>
+            <td>${itemsData.Bed}</td>
+            <td>${itemsData.Bath}</td>
+            <td>${itemsData.Parking}</td>
+            <td>${itemsData.Location}</td>
+            <td>${itemsData.Price}</td>
+            <td><img src="${itemsData.MainPhoto}" alt="mainphoto"></td>
+            <td><img src="${itemsData.Photo01}" alt="photo01"></td>
+            <td><img src="${itemsData.Photo02}" alt="photo02"></td>
+            <td><img src="${itemsData.Photo03}" alt="photo03"></td>
+            <td><img src="${itemsData.Photo04}" alt="photo04"></td>
+            <td><img src="${itemsData.Photo05}" alt="photo05"></td>
+            <td><img src="${itemsData.Photo06}" alt="photo06"></td>
+            <td><img src="${itemsData.Photo07}" alt="photo07"></td>
+            <td><img src="${itemsData.Photo08}" alt="photo08"></td>
+            <td><img src="${itemsData.Photo09}" alt="photo09"></td>
+            <td><img src="${itemsData.Photo10}" alt="photo10"></td>
+            <td><img src="${itemsData.Photo11}" alt="photo11"></td>
+            <td><img src="${itemsData.Photo12}" alt="photo12"></td>
+            <td><img src="${itemsData.Photo13}" alt="photo13"></td>
+            <td><img src="${itemsData.Photo14}" alt="photo14"></td>
+            <td><img src="${itemsData.Photo15}" alt="photo15"></td>
+            <td><img src="${itemsData.Photo16}" alt="photo16"></td>
+            <td><img src="${itemsData.Photo17}" alt="photo17"></td>
+            <td><img src="${itemsData.Photo18}" alt="photo18"></td>
+            <td><img src="${itemsData.Photo19}" alt="photo18"></td>
+        
+            <td>
+              <button onclick="editRecord('${doc.id}')">Edit</button>
+              <button onclick="deleteRecord('${doc.id}')">Delete</button>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      });
+    }
+
+    // Show the form when the "Add Data" button is clicked
+    document.getElementById('addButton').addEventListener('click', function () {
+      window.location.href = 'Adddata.html';
+    });
+
+    // Function to handle editing a record
+    function editRecord(docId) {
+      // Redirect to an update page with the document ID
+      window.location.href = 'Editdata.html?id=' + docId;
+    }
+
+    // Function to handle deleting a record
+    function deleteRecord(docId) {
+      db.collection('items').doc(docId).delete().then(function () {
+        console.log('Document successfully deleted!');
+        readRecords(); // Refresh displayed records
+      }).catch(function (error) {
+        console.error('Error deleting document: ', error);
+      });
+    }
+    </script>
+</body>
+</html>
